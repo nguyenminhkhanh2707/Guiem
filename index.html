@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thư Mời Lễ Tốt Nghiệp - Minh Khánh</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Background Canvas for Falling Petals / Soft Bokeh -->
+  <canvas id="ambient-canvas"></canvas>
+
+  <!-- ==========================================
+       HERO / VINTAGE ENVELOPE OPENING OVERLAY
+       ========================================== -->
+  <div id="envelope-overlay" class="envelope-overlay">
+    <div class="envelope-wrapper">
+      <div class="envelope" id="envelope-card">
+        <div class="envelope-flap"></div>
+        <div class="envelope-pocket"></div>
+        <div class="envelope-letter-preview">
+          <div class="preview-line line-short"></div>
+          <div class="preview-line"></div>
+          <div class="preview-line"></div>
+        </div>
+        
+        <!-- Wax Seal Button -->
+        <div class="wax-seal" id="wax-seal-btn" title="Nhấn để mở thư">
+          <div class="seal-inner">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <span class="seal-text">MỞ THƯ</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="envelope-hint">
+        <p class="to-text">Gửi: <span id="env-recipient-name">Em</span> 🌸</p>
+        <p class="click-hint"><i class="fa-solid fa-arrow-pointer"></i> Nhấn vào con dấu sáp để mở lá thư này</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       FLOATING AUDIO PLAYER (VINYL RECORD)
+       ========================================== -->
+  <div class="floating-music-player" id="music-player">
+    <div class="vinyl-record" id="vinyl-disc">
+      <div class="vinyl-grooves"></div>
+      <div class="vinyl-center">
+        <i class="fa-solid fa-music"></i>
+      </div>
+    </div>
+    <div class="music-info">
+      <div class="music-title" id="music-title">Kỷ Niệm Ngày Ấy</div>
+      <div class="music-artist" id="music-artist">Acoustic Piano Melody</div>
+    </div>
+    <button class="music-toggle-btn" id="music-toggle-btn" aria-label="Bật/Tắt nhạc">
+      <i class="fa-solid fa-play" id="music-icon"></i>
+    </button>
+  </div>
+
+  <!-- Audio Element with preloaded music -->
+  <audio id="bg-audio" src="music.wav" preload="auto" loop></audio>
+
+  <!-- ==========================================
+       MAIN CONTENT CONTAINER
+       ========================================== -->
+  <div class="main-container" id="main-content">
+
+    <!-- Header Section -->
+    <header class="hero-header">
+      <div class="badge-tag">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>Lễ Tốt Nghiệp Đại Học</span>
+      </div>
+      <h1 class="main-title">
+        Khép Lại Một Thời <span class="highlight-serif">Thanh Xuân</span>
+      </h1>
+      <p class="hero-subtext">
+        "Có những người chỉ đi cùng ta một đoạn đường, nhưng kỷ niệm lại theo ta cả một đời."
+      </p>
+      <div class="header-divider">
+        <span class="divider-line"></span>
+        <span class="divider-icon">❦</span>
+        <span class="divider-line"></span>
+      </div>
+    </header>
+
+    <!-- 1. The Heartfelt Letter Card -->
+    <section class="section-card letter-card">
+      <div class="card-corner corner-tl"></div>
+      <div class="card-corner corner-tr"></div>
+      <div class="card-corner corner-bl"></div>
+      <div class="card-corner corner-br"></div>
+
+      <div class="letter-stamp">
+        <span>GRADUATION</span>
+        <small>2026</small>
+      </div>
+
+      <h2 class="letter-salutation" id="letter-title">Gửi Em,</h2>
+      
+      <div class="letter-body" id="letter-content">
+        <!-- Content will be injected dynamically from config.js -->
+      </div>
+
+      <div class="letter-footer">
+        <p class="sign-off" id="letter-sign-off">Mong em một đời an yên & hạnh phúc,</p>
+        <p class="signature-name" id="letter-sender-sign">Minh Khánh</p>
+      </div>
+    </section>
+
+    <!-- 2. Ceremony Details & Countdown -->
+    <section class="section-card details-section">
+      <div class="section-header">
+        <span class="sub-badge">Thông Tin Buổi Lễ</span>
+        <h2 class="section-heading">Thời Gian & Địa Điểm</h2>
+        <p class="section-desc">Nếu em ghé qua, anh sẽ rất vui được trao nhau một cái ôm và chụp cùng nhau một tấm ảnh kỷ niệm.</p>
+      </div>
+
+      <!-- Countdown Timer Box -->
+      <div class="countdown-wrapper">
+        <div class="countdown-title">
+          <i class="fa-regular fa-clock"></i> Đếm ngược đến khoảnh khắc trọng đại
+        </div>
+        <div class="countdown-boxes">
+          <div class="time-box">
+            <span class="time-number" id="cd-days">00</span>
+            <span class="time-label">Ngày</span>
+          </div>
+          <div class="time-separator">:</div>
+          <div class="time-box">
+            <span class="time-number" id="cd-hours">00</span>
+            <span class="time-label">Giờ</span>
+          </div>
+          <div class="time-separator">:</div>
+          <div class="time-box">
+            <span class="time-number" id="cd-minutes">00</span>
+            <span class="time-label">Phút</span>
+          </div>
+          <div class="time-separator">:</div>
+          <div class="time-box">
+            <span class="time-number" id="cd-seconds">00</span>
+            <span class="time-label">Giây</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Details Grid -->
+      <div class="details-grid">
+        <div class="detail-item">
+          <div class="detail-icon"><i class="fa-solid fa-building-columns"></i></div>
+          <div class="detail-text">
+            <h4>Trường</h4>
+            <p id="info-uni">Đại học Công nghiệp Thành phố Hồ Chí Minh</p>
+            <small id="info-faculty">IUH</small>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-icon"><i class="fa-regular fa-calendar-check"></i></div>
+          <div class="detail-text">
+            <h4>Thời gian</h4>
+            <p id="info-date">Chủ Nhật, 29/11/2026</p>
+            <small id="info-time">Từ 09:00 Sáng</small>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-icon"><i class="fa-solid fa-map-location-dot"></i></div>
+          <div class="detail-text">
+            <h4>Địa điểm</h4>
+            <p id="info-hall">Trường ĐH Công nghiệp TP.HCM</p>
+            <small id="info-address">12 Nguyễn Văn Bảo, Hạnh Thông, Hồ Chí Minh</small>
+          </div>
+        </div>
+
+        <div class="detail-item">
+          <div class="detail-icon"><i class="fa-solid fa-clock-rotate-left"></i></div>
+          <div class="detail-text">
+            <h4>Lưu ý nhỏ</h4>
+            <p id="info-timenote">Đến trước 15 phút</p>
+            <small>Để tránh tụi mình bị lạc nhau nhé!</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notice note -->
+      <div class="gentle-notice">
+        <i class="fa-solid fa-gift"></i>
+        <span id="info-gift-note">Em không cần mang hoa hay quà cầu kỳ đâu nhé. Sự có mặt và một nụ cười của em đã là món quà quý giá nhất rồi!</span>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons-row">
+        <a id="btn-add-calendar" href="#" class="btn btn-primary" target="_blank" rel="noopener">
+          <i class="fa-regular fa-calendar-plus"></i> Thêm Vào Lịch (Google Calendar)
+        </a>
+        <a id="btn-maps" href="https://www.google.com/maps/place/Tr%C6%B0%E1%BB%9Dng+%C4%90%E1%BA%A1i+h%E1%BB%8Dc+C%C3%B4ng+nghi%E1%BB%87p+TP.HCM/@10.8221733,106.6831931,858m/data=!3m1!1e3!4m15!1m8!3m7!1s0x317528e52e46e0cd:0xe3e53fb545e26265!2zMTIgTmd1eeG7hW4gVsSDbiBC4bqjbywgSOG6oW5oIFRow7RuZywgSOG7kyBDaMOtIE1pbmggNzAwMDAwLCBWaeG7h3QgTmFt!3b1!8m2!3d10.8221733!4d106.685768!16s%2Fg%2F11md9ng7b0!3m5!1s0x3174deb3ef536f31:0x8b7bb8b7c956157b!8m2!3d10.8221589!4d106.6868454!16s%2Fm%2F02pyzdj?entry=ttu&g_ep=EgoyMDI2MTEwMy4wIKXMDSoASAFQAw%3D%3D" class="btn btn-secondary" target="_blank" rel="noopener">
+          <i class="fa-solid fa-diamond-turn-right"></i> Xem Chỉ Đường (Google Maps)
+        </a>
+      </div>
+    </section>
+
+    <!-- 3. RSVP Section (Delicate & Emotional, Anh - Em) -->
+    <section class="section-card rsvp-section" id="rsvp-section">
+      <div class="section-header">
+        <span class="sub-badge">Phản Hồi Lời Mời</span>
+        <h2 class="section-heading">Em Có Thể Ghé Qua Chứ?</h2>
+        <p class="section-desc">Dù câu trả lời là gì, anh đều trân trọng và thấu hiểu. Em đừng cảm thấy áp lực nhé!</p>
+      </div>
+
+      <div class="rsvp-options" id="rsvp-options-container">
+        <!-- Option 1: Yes -->
+        <button class="rsvp-btn rsvp-yes" id="btn-rsvp-yes">
+          <div class="rsvp-btn-icon">🌸</div>
+          <div class="rsvp-btn-text">
+            <strong>Em chắc chắn sẽ đến!</strong>
+            <span>Chờ em chụp chung một tấm ảnh cử nhân nhé.</span>
+          </div>
+        </button>
+
+        <!-- Option 2: Busy -->
+        <button class="rsvp-btn rsvp-busy" id="btn-rsvp-busy">
+          <div class="rsvp-btn-icon">💌</div>
+          <div class="rsvp-btn-text">
+            <strong>Hôm đó em bận rồi...</strong>
+            <span>Nhưng từ xa em vẫn luôn chúc mừng và tự hào về anh!</span>
+          </div>
+        </button>
+
+        <!-- Option 3: Thinking -->
+        <button class="rsvp-btn rsvp-maybe" id="btn-rsvp-maybe">
+          <div class="rsvp-btn-icon">☕</div>
+          <div class="rsvp-btn-text">
+            <strong>Để em xem lại lịch trình nhé</strong>
+            <span>Nếu thu xếp kịp, em nhất định sẽ ghé qua.</span>
+          </div>
+        </button>
+      </div>
+
+      <!-- Dynamic Response Feedback Box -->
+      <div class="rsvp-feedback-card hidden" id="rsvp-feedback-card">
+        <div class="feedback-badge" id="feedback-badge">🎉</div>
+        <h3 class="feedback-title" id="feedback-title">Cảm ơn em!</h3>
+        <p class="feedback-text" id="feedback-text">...</p>
+        
+        <!-- Virtual Guest Pass (Only shown if YES) -->
+        <div class="virtual-ticket hidden" id="virtual-ticket">
+          <div class="ticket-header">
+            <span>TẤM VÉ DANH DỰ CỬ NHÂN</span>
+            <small>VIP GUEST PASS</small>
+          </div>
+          <div class="ticket-body">
+            <div class="ticket-field">
+              <label>Khách Mời Đặc Biệt</label>
+              <div class="ticket-val" id="ticket-guest-name">Em</div>
+            </div>
+            <div class="ticket-field">
+              <label>Người Mời</label>
+              <div class="ticket-val" id="ticket-host-name">Minh Khánh</div>
+            </div>
+            <div class="ticket-field">
+              <label>Đặc Quyền</label>
+              <div class="ticket-val">Ôm chúc mừng + Tấm hình kỷ niệm nụ cười rạng rỡ nhất 📸</div>
+            </div>
+          </div>
+          <div class="ticket-barcode">
+            <div class="barcode-lines"></div>
+            <span>GRADUATION-2026-FOREVER-MEMORIES</span>
+          </div>
+        </div>
+
+        <button class="btn btn-outline" id="btn-reselect-rsvp">
+          <i class="fa-solid fa-arrow-rotate-left"></i> Chọn lại phản hồi khác
+        </button>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+      <p class="footer-quote">
+        "Thanh xuân như một cơn mưa rào, dù có bị cảm lạnh vì tắm mưa, người ta vẫn muốn đắm mình trong cơn mưa ấy lần nữa."
+      </p>
+      <div class="footer-credits">
+        Được chuẩn bị với tất cả sự trân trọng & hoài niệm • <span id="footer-year">2026</span>
+      </div>
+    </footer>
+
+  </div> <!-- End of .main-container -->
+
+  <!-- Load Config & Script -->
+  <script src="config.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
